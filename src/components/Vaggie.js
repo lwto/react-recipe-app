@@ -7,21 +7,28 @@ import {Link} from 'react-router-dom'
 function Vaggie() {
   const[vaggie, setVaggie] = useState([])
 
+  // const getVaggie = async() => {
+
+  //   const check = localStorage.getItem('vaggie')
+
+  //   if(check){
+  //     setVaggie(JSON.parse(check))
+  //   }else{
+  //     const api = await fetch('https://api.spoonacular.com/recipes/random?apiKey=3a0f6785c95240b6964d13fdd238a12b&number=9&tags=vegetarian')
+  //     const data = await api.json()
+
+  //     localStorage.setItem('vaggie', JSON.stringify(data.recipes))
+  //     setVaggie(data.recipes)
+  //     console.log(data.recipes)    
+  //   }
+  // } 
+
   const getVaggie = async() => {
+    const api = await fetch('https://api.spoonacular.com/recipes/random?apiKey=3a0f6785c95240b6964d13fdd238a12b&number=9&tags=vegetarian')
+    const data = await api.json()
+    setVaggie(data.recipes)
+  }
 
-    const check = localStorage.getItem('vaggie')
-
-    if(check){
-      setVaggie(JSON.parse(check))
-    }else{
-      const api = await fetch('https://api.spoonacular.com/recipes/random?apiKey=3a0f6785c95240b6964d13fdd238a12b&number=9&tags=vegetarian')
-      const data = await api.json()
-
-      localStorage.setItem('vaggie', JSON.stringify(data.recipes))
-      setVaggie(data.recipes)
-      console.log(data.recipes)    
-    }
-  } 
 
   useEffect(()=>{
     getVaggie()

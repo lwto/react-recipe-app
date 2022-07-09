@@ -8,21 +8,27 @@ function Popular() {
 
   const[popular, setPopular] = useState([])
 
+  // const getPopular = async() => {
+
+  //   const check = localStorage.getItem('popular')
+
+  //   if(check){
+  //     setPopular(JSON.parse(check))
+  //   }else{
+  //     const api = await fetch('https://api.spoonacular.com/recipes/random?apiKey=3a0f6785c95240b6964d13fdd238a12b&number=9')
+  //     const data = await api.json()
+
+  //     localStorage.setItem('popular', JSON.stringify(data.recipes))
+  //     setPopular(data.recipes)
+  //     console.log(popular)    
+  //   }
+  // } 
+
   const getPopular = async() => {
-
-    const check = localStorage.getItem('popular')
-
-    if(check){
-      setPopular(JSON.parse(check))
-    }else{
-      const api = await fetch('https://api.spoonacular.com/recipes/random?apiKey=3a0f6785c95240b6964d13fdd238a12b&number=9')
-      const data = await api.json()
-
-      localStorage.setItem('popular', JSON.stringify(data.recipes))
-      setPopular(data.recipes)
-      console.log(popular)    
-    }
-  } 
+    const api = await fetch('https://api.spoonacular.com/recipes/random?apiKey=3a0f6785c95240b6964d13fdd238a12b&number=9')
+    const data = await api.json()
+    setPopular(data.recipes)
+  }
 
   useEffect(()=>{
     getPopular()
