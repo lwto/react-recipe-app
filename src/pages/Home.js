@@ -1,12 +1,18 @@
 import Vaggie from "../components/Vaggie";
 import Popular from "../components/Popular";
+import {motion} from 'framer-motion'
 
 function Home() {
   return (
-    <div>
+    <motion.div 
+      animate={{opacity: 1}}
+      initial={{opacity: 0}}
+      exit={{opacity: 0}}
+      transition={{duration:0.5}}
+    >
       <Vaggie />
       <Popular />
-    </div>
+    </motion.div>
   )
 }
 
