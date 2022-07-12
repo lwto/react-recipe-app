@@ -8,16 +8,20 @@ function Recipe() {
 
   let params = useParams()
   const [details, setDetails] = useState({})
+  const [ingredients, setIngredients] = useState([])
   const [activeTab, setActiveTab] = useState("instructions")
 
   const fetchDetails = async () =>{
     const data = await fetch(`https://api.spoonacular.com/recipes/${params.name}/information?apiKey=3a0f6785c95240b6964d13fdd238a12b`)
     const detailData = await data.json()
     setDetails(detailData)
-  }
+    setIngredients(prev => detailData.extendedIngredients)
+    console.log(ingredients)
+  } 
 
   useEffect(()=>{
     fetchDetails()
+    
   },[params.name])
 
   return (
@@ -29,16 +33,38 @@ function Recipe() {
       <Info>
         <Button onClick={(()=> setActiveTab('instructions'))} className={activeTab=== 'instructions' ? 'active' : ''}>Instructions</Button>
         <Button onClick={(()=> setActiveTab('ingredients'))} className={activeTab=== 'ingredients' ? 'active' : ''}>Ingredients</Button>
-        <div>
-          <p dangerouslySetInnerHTML={{ __html:details.summary }}></p>
-        </div>
+        {activeTab === 'instructions' && 
+          (
+            <div>
+            <h2>Summary</h2>
+            <h3 dangerouslySetInnerHTML={{ __html:details.summary }}></h3>
+            <h2>Instructions</h2>
+            <h3 dangerouslySetInnerHTML={{ __html:details.instructions }}></h3>
+          </div>
+          )
+        }
+        {activeTab === 'ingredients' && (
+          <ul>
+          {
+            ingredients.map((ingredient, index)=>{
+            return(
+              <li key={index}>
+              {ingredient.original}
+            </li>
+            ) 
+            })
+          }
+        </ul>
+        )}
+        
+       
       </Info>
     </DetailWrapper>
   )
 }
 
 const DetailWrapper = styled.div`
-  margin-top:10rem;
+  margin-top:5rem;
   margin-bottom:5rem;
   display:flex;
   .active{
@@ -63,8 +89,13 @@ const Button = styled.button`
   border: 2px solid black;
   margin-right:2rem;
   font-weight:600;
+  margin-bottom: 1rem;
 `
 const Info = styled.div`
-  margin-left:10rem;
+  margin-left:4rem;
+  h2{
+    margin-top:2rem;
+    text-decoration: underline;
+  }
 `
 export default Recipe
